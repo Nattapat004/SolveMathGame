@@ -12,25 +12,33 @@
         android:theme="@style/Theme.24MathGame"
         tools:targetApi="31">
         <activity
-            android:name=".LevelSelect"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="false" />
+            android:name=".ep1stage1"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".LevelSelect1"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".Episode"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Defeated"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="false" />
-
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Victory"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".GameActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

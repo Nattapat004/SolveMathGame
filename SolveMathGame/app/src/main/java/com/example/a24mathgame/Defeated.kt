@@ -18,7 +18,7 @@ class Defeated : AppCompatActivity() {
         }
 
         again.setOnClickListener(){
-            val intent = Intent(this,GameActivity::class.java)
+            val intent = Intent(this,ep1stage1::class.java)
             startActivity(intent)
         }
 

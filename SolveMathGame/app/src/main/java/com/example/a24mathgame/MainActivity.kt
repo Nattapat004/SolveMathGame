@@ -13,12 +13,8 @@ class MainActivity : AppCompatActivity() {
 
         val playButton = findViewById<ImageButton>(R.id.playButton)
         playButton.setOnClickListener{
-            val intent = Intent(this,LevelSelect::class.java)
+            val intent = Intent(this,Episode::class.java)
             startActivity(intent)
         }
-
-
-
-
     }
 }
