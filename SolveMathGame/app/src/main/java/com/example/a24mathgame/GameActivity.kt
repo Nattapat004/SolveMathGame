@@ -2,13 +2,12 @@ package com.example.a24mathgame
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
-import kotlin.math.pow
+
 
 class GameActivity : AppCompatActivity() {
 
@@ -26,12 +25,13 @@ class GameActivity : AppCompatActivity() {
         val sqrRoot = findViewById<ImageButton>(R.id.root)
         val submit = findViewById<Button>(R.id.submitButton)
         val power = findViewById<ImageButton>(R.id.power)
+
         submit.isEnabled = false
+        submit.text = 10.toString()
         var no1Clicked = false
         var no2Clicked = false
         var no3Clicked = false
         var no4Clicked = false
-        var sqrtClicked = false
         var result = 0.00
         var latestPressed = 0.00
         val calculationList = mutableListOf<Double>()
@@ -115,11 +115,56 @@ class GameActivity : AppCompatActivity() {
             power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
         }
 
+        fun operatorUnReady(){
+            plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.plusclicked))
+            minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.minusclicked))
+            multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.multiclicked))
+            divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.divideclicked))
+            power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.expoclicked))
+        }
+
+        fun changeText(no0 : Button){
+            no0.tag = result
+            no0.text = String.format("%.2f", result)
+            calculationList.clear()
+            operatorList.clear()
+            submit.tag = result
+
+        }
+
+        fun buttonSwitch(){
+            if (!no1Clicked){
+                no1Enabled()
+            }else {
+                no1Disabled()
+            }
+            if (!no2Clicked){
+                no2Enabled()
+            }else {
+                no2Disabled()
+            }
+            if (!no3Clicked){
+                no3Enabled()
+            }else {
+                no3Disabled()
+            }
+            if (!no4Clicked){
+                no4Enabled()
+            }else {
+                no4Disabled()
+            }
+        }
+
 
 
         fun onNumberButtonClicked() {
             if (no1Clicked and no2Clicked and no3Clicked and no4Clicked) {
                 submit.isEnabled = true
+                plus.isEnabled = false
+                minus.isEnabled = false
+                multiply.isEnabled = false
+                divide.isEnabled = false
+                operatorUnReady()
             }
         }
 
@@ -143,8 +188,6 @@ class GameActivity : AppCompatActivity() {
                     "-" -> result -= calculationList[i]
                     "*" -> result *= calculationList[i]
                     "/" -> result /= calculationList[i]
-                    "sqrt" -> result = kotlin.math.sqrt(result)
-                    "**" -> result = result.pow(calculationList[i])
                 }
             }
         }
@@ -154,6 +197,10 @@ class GameActivity : AppCompatActivity() {
             no2.tag = 2.00
             no3.tag = 3.00
             no4.tag = 4.00
+            no1.text = no1.tag.toString()
+            no2.text = no2.tag.toString()
+            no3.text = no3.tag.toString()
+            no4.text = no4.tag.toString()
             no1.setOnClickListener() {
                 enableOperators()
                 operatorReady()
@@ -161,7 +208,7 @@ class GameActivity : AppCompatActivity() {
                 no3Disabled()
                 no4Disabled()
                 if (calculationList.size != 0) {
-                    if ((calculationList[0] == no1.tag as Double) and (latestPressed == 1.00) and (!sqrtClicked)){
+                    if ((calculationList[0] == no1.tag as Double) and (latestPressed == 1.00)){
                         calculationList.clear()
                         disableOperators()
                         if (!no2Clicked){
@@ -177,24 +224,9 @@ class GameActivity : AppCompatActivity() {
                     } else{
                         calculationList.add(no1.tag as Double)
                         performCalculation()
-                        no1.tag = result
-                        submit.tag = result
-                        no1.text = String.format("%.2f", result)
-                        submit.text = String.format("%.2f", result)
-                        calculationList.clear()
-                        operatorList.clear()
+                        changeText(no1)
                         disableOperators()
                         no1Clicked = false
-                        sqrtClicked = false
-                        if (!no2Clicked){
-                            no2Enabled()
-                        }
-                        if (!no3Clicked){
-                            no3Enabled()
-                        }
-                        if (!no4Clicked){
-                            no4Enabled()
-                        }
                     }
 
                 } else if (calculationList.size == 0) {
@@ -202,12 +234,6 @@ class GameActivity : AppCompatActivity() {
                         no1Clicked = true
                     onNumberButtonClicked()
                     submitResult()
-                }
-
-                if ((no1.tag as Double) < 0.00){
-                    sqrRoot.isEnabled = false
-                }else {
-                    sqrRoot.isEnabled = true
                 }
                 latestPressed = 1.00
             }
@@ -218,7 +244,7 @@ class GameActivity : AppCompatActivity() {
                 no3Disabled()
                 no4Disabled()
                 if (calculationList.size != 0) {
-                    if ((calculationList[0] == no2.tag as Double) and (latestPressed == 2.00) and (!sqrtClicked)){
+                    if ((calculationList[0] == no2.tag as Double) and (latestPressed == 2.00)){
                         calculationList.clear()
                         disableOperators()
                         if (!no1Clicked){
@@ -234,11 +260,7 @@ class GameActivity : AppCompatActivity() {
                     }else {
                         calculationList.add(no2.tag as Double)
                         performCalculation()
-                        no2.tag = result
-                        no2.text = String.format("%.2f", result)
-                        submit.text = String.format("%.2f", result)
-                        calculationList.clear()
-                        operatorList.clear()
+                       changeText(no2)
                         disableOperators()
                         if (!no1Clicked){
                             no1Enabled()
@@ -250,7 +272,7 @@ class GameActivity : AppCompatActivity() {
                             no4Enabled()
                         }
                         no2Clicked = false
-                        sqrtClicked = false
+
                     }
                 } else if (calculationList.size == 0) {
                         calculationList.add(no2.tag as Double)
@@ -259,11 +281,6 @@ class GameActivity : AppCompatActivity() {
                     submitResult()
                 }
 
-                if ((no2.tag as Double) < 0.00){
-                    sqrRoot.isEnabled = false
-                }else {
-                    sqrRoot.isEnabled = true
-                }
                 latestPressed = 2.00
             }
             no3.setOnClickListener() {
@@ -273,7 +290,7 @@ class GameActivity : AppCompatActivity() {
                 no1Disabled()
                 no4Disabled()
                 if (calculationList.size != 0) {
-                    if ((calculationList[0] == no3.tag as Double) and (latestPressed == 3.00) and (!sqrtClicked)) {
+                    if ((calculationList[0] == no3.tag as Double) and (latestPressed == 3.00)) {
                         calculationList.clear()
                         disableOperators()
                         if (!no2Clicked) {
@@ -290,14 +307,9 @@ class GameActivity : AppCompatActivity() {
                     } else {
                         calculationList.add(no3.tag as Double)
                         performCalculation()
-                        no3.tag = result
-                        no3.text = String.format("%.2f", result)
-                        submit.text = String.format("%.2f", result)
-                        calculationList.clear()
-                        operatorList.clear()
+                        changeText(no3)
                         disableOperators()
                         no3Clicked = false
-                        sqrtClicked = false
                         if (!no1Clicked){
                             no1Enabled()
                         }
@@ -315,11 +327,7 @@ class GameActivity : AppCompatActivity() {
                     submitResult()
                 }
 
-                if ((no3.tag as Double) < 0.00){
-                    sqrRoot.isEnabled = false
-                }else {
-                    sqrRoot.isEnabled = true
-                }
+
                 latestPressed = 3.00
             }
 
@@ -330,7 +338,7 @@ class GameActivity : AppCompatActivity() {
                 no3Disabled()
                 no1Disabled()
                 if (calculationList.size != 0) {
-                    if ((calculationList[0] == no4.tag as Double) and (latestPressed == 4.00) and (!sqrtClicked)) {
+                    if ((calculationList[0] == no4.tag as Double) and (latestPressed == 4.00)) {
                         calculationList.clear()
                         disableOperators()
                         if (!no2Clicked) {
@@ -346,14 +354,9 @@ class GameActivity : AppCompatActivity() {
                     } else {
                         calculationList.add(no4.tag as Double)
                         performCalculation()
-                        no4.tag = result
-                        no4.text = String.format("%.2f", result)
-                        submit.text = String.format("%.2f", result)
-                        calculationList.clear()
-                        operatorList.clear()
+                       changeText(no4)
                         disableOperators()
                         no4Clicked = false
-                        sqrtClicked = false
                         if (!no1Clicked){
                             no1Enabled()
                         }
@@ -373,11 +376,6 @@ class GameActivity : AppCompatActivity() {
 
                 }
 
-                if ((no4.tag as Double) < 0.00){
-                    sqrRoot.isEnabled = false
-                }else {
-                    sqrRoot.isEnabled = true
-                }
                 latestPressed = 4.00
             }
         }
@@ -396,27 +394,7 @@ class GameActivity : AppCompatActivity() {
                 }else {
                     operatorList.add("+")
                 }
-                if (!no1Clicked){
-                    no1Enabled()
-                } else {
-                    no1Disabled()
-                }
-                if (!no2Clicked){
-                    no2Enabled()
-                }else {
-                    no2Disabled()
-                }
-                if (!no3Clicked){
-                    no3Enabled()
-                }else {
-                    no3Disabled()
-                }
-                if (!no4Clicked){
-                    no4Enabled()
-                }else {
-                    no4Disabled()
-                }
-
+                buttonSwitch()
             }
             minus.setOnClickListener {
                 minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.minusclicked))
@@ -431,27 +409,7 @@ class GameActivity : AppCompatActivity() {
                 }else {
                     operatorList.add("-")
                 }
-                if (!no1Clicked){
-                    no1Enabled()
-                }else {
-                    no1Disabled()
-                }
-                if (!no2Clicked){
-                    no2Enabled()
-                }else {
-                    no2Disabled()
-                }
-                if (!no3Clicked){
-                    no3Enabled()
-                }else {
-                    no3Disabled()
-                }
-                if (!no4Clicked){
-                    no4Enabled()
-                }else {
-                    no4Disabled()
-                }
-
+                buttonSwitch()
             }
             multiply.setOnClickListener {
                 multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.multiclicked))
@@ -466,27 +424,7 @@ class GameActivity : AppCompatActivity() {
                 }else {
                     operatorList.add("*")
                 }
-                if (!no1Clicked){
-                    no1Enabled()
-                }else {
-                    no1Disabled()
-                }
-                if (!no2Clicked){
-                    no2Enabled()
-                }else {
-                    no2Disabled()
-                }
-                if (!no3Clicked){
-                    no3Enabled()
-                }else {
-                    no3Disabled()
-                }
-                if (!no4Clicked){
-                    no4Enabled()
-                }else {
-                    no4Disabled()
-                }
-
+                buttonSwitch()
             }
             divide.setOnClickListener {
                 divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.divideclicked))
@@ -501,109 +439,14 @@ class GameActivity : AppCompatActivity() {
                 }else {
                     operatorList.add("/")
                 }
-                if (!no1Clicked){
-                    no1Enabled()
-                }else {
-                    no1Disabled()
-                }
-                if (!no2Clicked){
-                    no2Enabled()
-                }else {
-                    no2Disabled()
-                }
-                if (!no3Clicked){
-                    no3Enabled()
-                }else {
-                    no3Disabled()
-                }
-                if (!no4Clicked){
-                    no4Enabled()
-                }else {
-                    no4Disabled()
-                }
-                }
-            sqrRoot.setOnClickListener(){
-                sqrRoot.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.sqrtclicked))
-                sqrtClicked = true
-                submit.isEnabled = false
-                if(operatorList.size != 0){
-                    operatorList.clear()
-                    plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_plus1))
-                    minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_minus1))
-                    multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_multiple1))
-                    divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_divide))
-                    power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
-                    operatorList.add("sqrt")
-                }else {
-                    operatorList.add("sqrt")
-                }
-                if (latestPressed == 1.00){
-                    no1Enabled()
-                    no2Disabled()
-                    no3Disabled()
-                    no4Disabled()
-                }
-                if (latestPressed == 2.00){
-                    no2Enabled()
-                    no1Disabled()
-                    no3Disabled()
-                    no4Disabled()
-                }
-                if (latestPressed == 3.00){
-                    no3Enabled()
-                    no2Disabled()
-                    no1Disabled()
-                    no4Disabled()
-                }
-                if (latestPressed == 4.00){
-                    no4Enabled()
-                    no2Disabled()
-                    no3Disabled()
-                    no1Disabled()
-                }
-            }
-            power.setOnClickListener(){
-                power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.expoclicked))
-                if(operatorList.size != 0){
-                    operatorList.clear()
-                    plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_plus1))
-                    minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_minus1))
-                    multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_multiple1))
-                    divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_divide))
-                    sqrRoot.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_sqrt1))
-                    operatorList.add("**")
-                }else {
-                    operatorList.add("**")
-                }
-                if (!no1Clicked){
-                    no1Enabled()
-                }else {
-                    no1Disabled()
-                }
-                if (!no2Clicked){
-                    no2Enabled()
-                }else {
-                    no2Disabled()
-                }
-                if (!no3Clicked){
-                    no3Enabled()
-                }else {
-                    no3Disabled()
-                }
-                if (!no4Clicked){
-                    no4Enabled()
-                }else {
-                    no4Disabled()
+                buttonSwitch()
                 }
 
-            }
 
             }
         initialize()
         operator()
-
         }
-
         }
 
 
