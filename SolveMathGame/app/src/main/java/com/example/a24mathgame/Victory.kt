@@ -15,7 +15,7 @@ class Victory : AppCompatActivity() {
 
         val mainScreen = findViewById<ImageButton>(R.id.winMainScreen)
         val next = findViewById<ImageButton>(R.id.next)
-        val stageCleared = applicationContext as StageCheck
+        val stageCleared = applicationContext as SharedVar
 
         mainScreen.setOnClickListener(){
             val intent = Intent(this,MainActivity::class.java)

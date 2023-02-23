@@ -12,7 +12,7 @@ class Defeated : AppCompatActivity() {
 
         val mainScreen = findViewById<ImageButton>(R.id.mainScreen)
         val again = findViewById<ImageButton>(R.id.again)
-        val stageLost = applicationContext as StageCheck
+        val stageLost = applicationContext as SharedVar
 
         mainScreen.setOnClickListener(){
             val intent = Intent(this,MainActivity::class.java)
@@ -21,7 +21,7 @@ class Defeated : AppCompatActivity() {
 
         again.setOnClickListener(){
             if (stageLost.stageLost == 1){
-                val intent = Intent(this,ep1stage1::class.java)
+                val intent = Intent(this,Ep1stage1::class.java)
                 startActivity(intent)
             }else if (stageLost.stageLost == 2){
                 val intent = Intent(this,Ep1Stage2::class.java)

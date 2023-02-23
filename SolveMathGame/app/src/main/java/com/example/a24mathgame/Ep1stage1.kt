@@ -1,16 +1,13 @@
 package com.example.a24mathgame
 
-import android.app.Application
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 
-class ep1stage1 : AppCompatActivity() {
+open class Ep1stage1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ep1stage1)
@@ -27,7 +24,6 @@ class ep1stage1 : AppCompatActivity() {
         val power = findViewById<ImageButton>(R.id.power)
         val backtoep1_1 = findViewById<ImageButton>(R.id.backtoep1_1)
         val home1_1 = findViewById<ImageButton>(R.id.home1_1)
-
         submit.isEnabled = false
         submit.text = 10.toString()
         var no1Clicked = false
@@ -38,23 +34,9 @@ class ep1stage1 : AppCompatActivity() {
         var latestPressed = 0.00
         val calculationList = mutableListOf<Double>()
         val operatorList = mutableListOf<String>()
-        plus.isEnabled = false
-        minus.isEnabled = false
-        multiply.isEnabled = false
-        divide.isEnabled = false
-        sqrRoot.isEnabled = false
-        power.isEnabled = false
 
-        fun enableOperators(){
-            plus.isEnabled = true
-            minus.isEnabled = true
-            multiply.isEnabled = true
-            divide.isEnabled = true
-            sqrRoot.isEnabled = true
-            power.isEnabled = true
-        }
 
-        fun disableOperators(){
+        fun startOperators() {
             plus.isEnabled = false
             minus.isEnabled = false
             multiply.isEnabled = false
@@ -63,47 +45,65 @@ class ep1stage1 : AppCompatActivity() {
             power.isEnabled = false
         }
 
-        fun no1Enabled(){
+
+        fun enableOperators() {
+            plus.isEnabled = true
+            minus.isEnabled = true
+            multiply.isEnabled = true
+            divide.isEnabled = true
+            sqrRoot.isEnabled = true
+            power.isEnabled = true
+        }
+
+        fun disableOperators() {
+            plus.isEnabled = false
+            minus.isEnabled = false
+            multiply.isEnabled = false
+            divide.isEnabled = false
+            sqrRoot.isEnabled = false
+            power.isEnabled = false
+        }
+
+        fun no1Enabled() {
             no1.isEnabled = true
 
         }
 
-        fun no2Enabled(){
+        fun no2Enabled() {
             no2.isEnabled = true
 
         }
 
-        fun no3Enabled(){
+        fun no3Enabled() {
             no3.isEnabled = true
 
         }
 
-        fun no4Enabled(){
+        fun no4Enabled() {
             no4.isEnabled = true
 
         }
 
-        fun no1Disabled(){
+        fun no1Disabled() {
             no1.isEnabled = false
 
         }
 
-        fun no2Disabled(){
+        fun no2Disabled() {
             no2.isEnabled = false
 
         }
 
-        fun no3Disabled(){
+        fun no3Disabled() {
             no3.isEnabled = false
         }
 
-        fun no4Disabled(){
+        fun no4Disabled() {
             no4.isEnabled = false
         }
 
 
-
-        fun operatorReady(){
+        fun operatorReady() {
             plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_plus1))
             minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_minus1))
             multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_multiple1))
@@ -112,7 +112,7 @@ class ep1stage1 : AppCompatActivity() {
             power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
         }
 
-        fun operatorUnReady(){
+        fun operatorUnReady() {
             plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.plusclicked))
             minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.minusclicked))
             multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.multiclicked))
@@ -120,7 +120,7 @@ class ep1stage1 : AppCompatActivity() {
             power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.expoclicked))
         }
 
-        fun changeText(no0 : Button){
+        fun changeText(no0: Button) {
             no0.tag = result
             no0.text = String.format("%.2f", result)
             calculationList.clear()
@@ -128,29 +128,29 @@ class ep1stage1 : AppCompatActivity() {
             submit.tag = result
         }
 
-        fun operatorNumSwitch(){
-            if (no1Clicked){
+        fun operatorNumSwitch() {
+            if (latestPressed == 1.00) {
                 no1Enabled()
                 no2Disabled()
                 no3Disabled()
                 no4Disabled()
             }
 
-            if (no2Clicked){
+            if (latestPressed == 2.00) {
                 no2Enabled()
                 no1Disabled()
                 no3Disabled()
                 no4Disabled()
             }
 
-            if (no3Clicked){
+            if (latestPressed == 3.00) {
                 no3Enabled()
                 no1Disabled()
                 no2Disabled()
                 no4Disabled()
             }
 
-            if (no4Clicked){
+            if (latestPressed == 4.00) {
                 no4Enabled()
                 no1Disabled()
                 no2Disabled()
@@ -158,29 +158,28 @@ class ep1stage1 : AppCompatActivity() {
             }
         }
 
-        fun buttonSwitch(){
-            if (!no1Clicked){
+        fun buttonSwitch() {
+            if (!no1Clicked) {
                 no1Enabled()
-            }else {
+            } else {
                 no1Disabled()
             }
-            if (!no2Clicked){
+            if (!no2Clicked) {
                 no2Enabled()
-            }else {
+            } else {
                 no2Disabled()
             }
-            if (!no3Clicked){
+            if (!no3Clicked) {
                 no3Enabled()
-            }else {
+            } else {
                 no3Disabled()
             }
-            if (!no4Clicked){
+            if (!no4Clicked) {
                 no4Enabled()
-            }else {
+            } else {
                 no4Disabled()
             }
         }
-
 
 
         fun onNumberButtonClicked() {
@@ -199,14 +198,14 @@ class ep1stage1 : AppCompatActivity() {
                 if (calculationList[0] == 10.00) {
                     val intent = Intent(this, Victory::class.java)
                     startActivity(intent)
-                    val stage1Cleared = applicationContext as StageCheck
+                    val stage1Cleared = applicationContext as SharedVar
                     stage1Cleared.stage1Cleared = true
-                    val stageCleared = applicationContext as StageCheck
+                    val stageCleared = applicationContext as SharedVar
                     stageCleared.stageCleared = 1
                 } else {
                     val intent = Intent(this, Defeated::class.java)
                     startActivity(intent)
-                    val stageLost = applicationContext as StageCheck
+                    val stageLost = applicationContext as SharedVar
                     stageLost.stageLost = 1
                 }
             }
@@ -240,32 +239,32 @@ class ep1stage1 : AppCompatActivity() {
                 no3Disabled()
                 no4Disabled()
                 if (calculationList.size != 0) {
-                    if ((calculationList[0] == no1.tag as Double) and (latestPressed == 1.00)){
+                    if ((calculationList[0] == no1.tag as Double) and (latestPressed == 1.00)) {
                         no1.setBackgroundResource(R.drawable.number__4_)
                         calculationList.clear()
                         disableOperators()
-                        if (!no2Clicked){
+                        if (!no2Clicked) {
                             no2Enabled()
                         }
-                        if (!no3Clicked){
+                        if (!no3Clicked) {
                             no3Enabled()
                         }
-                        if (!no4Clicked){
+                        if (!no4Clicked) {
                             no4Enabled()
                         }
                         no1Clicked = false
-                    } else{
+                    } else {
                         calculationList.add(no1.tag as Double)
                         performCalculation()
                         changeText(no1)
                         disableOperators()
-                        if (!no2Clicked){
+                        if (!no2Clicked) {
                             no2Enabled()
                         }
-                        if (!no3Clicked){
+                        if (!no3Clicked) {
                             no3Enabled()
                         }
-                        if (!no4Clicked){
+                        if (!no4Clicked) {
                             no4Enabled()
                         }
                         no1Clicked = false
@@ -287,32 +286,32 @@ class ep1stage1 : AppCompatActivity() {
                 no3Disabled()
                 no4Disabled()
                 if (calculationList.size != 0) {
-                    if ((calculationList[0] == no2.tag as Double) and (latestPressed == 2.00)){
+                    if ((calculationList[0] == no2.tag as Double) and (latestPressed == 2.00)) {
                         no2.setBackgroundResource(R.drawable.number__4_)
                         calculationList.clear()
                         disableOperators()
-                        if (!no1Clicked){
+                        if (!no1Clicked) {
                             no1Enabled()
                         }
-                        if (!no3Clicked){
+                        if (!no3Clicked) {
                             no3Enabled()
                         }
-                        if (!no4Clicked){
+                        if (!no4Clicked) {
                             no4Enabled()
                         }
                         no2Clicked = false
-                    }else {
+                    } else {
                         calculationList.add(no2.tag as Double)
                         performCalculation()
                         changeText(no2)
                         disableOperators()
-                        if (!no1Clicked){
+                        if (!no1Clicked) {
                             no1Enabled()
                         }
-                        if (!no3Clicked){
+                        if (!no3Clicked) {
                             no3Enabled()
                         }
-                        if (!no4Clicked){
+                        if (!no4Clicked) {
                             no4Enabled()
                         }
                         no2Clicked = false
@@ -356,13 +355,13 @@ class ep1stage1 : AppCompatActivity() {
                         changeText(no3)
                         disableOperators()
                         no3Clicked = false
-                        if (!no1Clicked){
+                        if (!no1Clicked) {
                             no1Enabled()
                         }
-                        if (!no2Clicked){
+                        if (!no2Clicked) {
                             no2Enabled()
                         }
-                        if (!no4Clicked){
+                        if (!no4Clicked) {
                             no4Enabled()
                         }
                     }
@@ -403,13 +402,13 @@ class ep1stage1 : AppCompatActivity() {
                         changeText(no4)
                         disableOperators()
                         no4Clicked = false
-                        if (!no1Clicked){
+                        if (!no1Clicked) {
                             no1Enabled()
                         }
-                        if (!no2Clicked){
+                        if (!no2Clicked) {
                             no2Enabled()
                         }
-                        if (!no3Clicked){
+                        if (!no3Clicked) {
                             no3Enabled()
                         }
                     }
@@ -429,28 +428,83 @@ class ep1stage1 : AppCompatActivity() {
         fun operator() {
             plus.setOnClickListener {
                 plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.plusclicked))
-                if((operatorList.size != 0)){
-                    if (operatorList[0] == "+"){
+                if ((operatorList.size != 0)) {
+                    if (operatorList[0] == "+") {
                         operatorList.clear()
-                        plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_plus1))
-                        minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_minus1))
-                        multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_multiple1))
-                        divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_divide))
-                        sqrRoot.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_sqrt1))
-                        power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
+                        plus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_plus1
+                            )
+                        )
+                        minus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_minus1
+                            )
+                        )
+                        multiply.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_multiple1
+                            )
+                        )
+                        divide.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_divide
+                            )
+                        )
+                        sqrRoot.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_sqrt1
+                            )
+                        )
+                        power.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_expo1
+                            )
+                        )
                         operatorNumSwitch()
 
-                    }else {
+                    } else {
                         operatorList.clear()
-                        minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_minus1))
-                        multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_multiple1))
-                        divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_divide))
-                        sqrRoot.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_sqrt1))
-                        power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
+                        minus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_minus1
+                            )
+                        )
+                        multiply.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_multiple1
+                            )
+                        )
+                        divide.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_divide
+                            )
+                        )
+                        sqrRoot.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_sqrt1
+                            )
+                        )
+                        power.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_expo1
+                            )
+                        )
                         operatorList.add("+")
                         buttonSwitch()
                     }
-                }else if (operatorList.size == 0){
+                } else if (operatorList.size == 0) {
                     operatorList.add("+")
                     buttonSwitch()
                 }
@@ -459,84 +513,249 @@ class ep1stage1 : AppCompatActivity() {
             }
             minus.setOnClickListener {
                 minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.minusclicked))
-                if((operatorList.size != 0)){
-                    if (operatorList[0] == "-"){
+                if ((operatorList.size != 0)) {
+                    if (operatorList[0] == "-") {
                         operatorList.clear()
-                        plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_plus1))
-                        minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_minus1))
-                        multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_multiple1))
-                        divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_divide))
-                        sqrRoot.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_sqrt1))
-                        power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
+                        plus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_plus1
+                            )
+                        )
+                        minus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_minus1
+                            )
+                        )
+                        multiply.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_multiple1
+                            )
+                        )
+                        divide.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_divide
+                            )
+                        )
+                        sqrRoot.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_sqrt1
+                            )
+                        )
+                        power.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_expo1
+                            )
+                        )
                         operatorNumSwitch()
 
-                    }else {
+                    } else {
                         operatorList.clear()
-                        plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_plus1))
-                        multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_multiple1))
-                        divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_divide))
-                        sqrRoot.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_sqrt1))
-                        power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
+                        plus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_plus1
+                            )
+                        )
+                        multiply.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_multiple1
+                            )
+                        )
+                        divide.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_divide
+                            )
+                        )
+                        sqrRoot.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_sqrt1
+                            )
+                        )
+                        power.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_expo1
+                            )
+                        )
                         operatorList.add("-")
                         buttonSwitch()
                     }
-                }else if (operatorList.size == 0){
+                } else if (operatorList.size == 0) {
                     operatorList.add("-")
                     buttonSwitch()
                 }
             }
             multiply.setOnClickListener {
                 multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.multiclicked))
-                if((operatorList.size != 0)){
-                    if (operatorList[0] == "*"){
+                if ((operatorList.size != 0)) {
+                    if (operatorList[0] == "*") {
                         operatorList.clear()
-                        plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_plus1))
-                        minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_minus1))
-                        multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_multiple1))
-                        divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_divide))
-                        sqrRoot.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_sqrt1))
-                        power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
+                        plus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_plus1
+                            )
+                        )
+                        minus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_minus1
+                            )
+                        )
+                        multiply.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_multiple1
+                            )
+                        )
+                        divide.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_divide
+                            )
+                        )
+                        sqrRoot.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_sqrt1
+                            )
+                        )
+                        power.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_expo1
+                            )
+                        )
                         operatorNumSwitch()
 
-                    }else {
+                    } else {
                         operatorList.clear()
-                        minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_minus1))
-                        plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_plus1))
-                        divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_divide))
-                        sqrRoot.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_sqrt1))
-                        power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
+                        minus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_minus1
+                            )
+                        )
+                        plus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_plus1
+                            )
+                        )
+                        divide.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_divide
+                            )
+                        )
+                        sqrRoot.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_sqrt1
+                            )
+                        )
+                        power.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_expo1
+                            )
+                        )
                         operatorList.add("*")
                         buttonSwitch()
                     }
-                }else if (operatorList.size == 0){
+                } else if (operatorList.size == 0) {
                     operatorList.add("*")
                     buttonSwitch()
                 }
             }
             divide.setOnClickListener {
                 divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.divideclicked))
-                if((operatorList.size != 0)){
-                    if (operatorList[0] == "/"){
+                if ((operatorList.size != 0)) {
+                    if (operatorList[0] == "/") {
                         operatorList.clear()
-                        plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_plus1))
-                        minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_minus1))
-                        multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_multiple1))
-                        divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_divide))
-                        sqrRoot.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_sqrt1))
-                        power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
+                        plus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_plus1
+                            )
+                        )
+                        minus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_minus1
+                            )
+                        )
+                        multiply.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_multiple1
+                            )
+                        )
+                        divide.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_divide
+                            )
+                        )
+                        sqrRoot.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_sqrt1
+                            )
+                        )
+                        power.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_expo1
+                            )
+                        )
                         operatorNumSwitch()
 
-                    }else {
+                    } else {
                         operatorList.clear()
-                        minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_minus1))
-                        multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_multiple1))
-                        plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_plus1))
-                        sqrRoot.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_sqrt1))
-                        power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
+                        minus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_minus1
+                            )
+                        )
+                        multiply.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_multiple1
+                            )
+                        )
+                        plus.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_plus1
+                            )
+                        )
+                        sqrRoot.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_sqrt1
+                            )
+                        )
+                        power.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.symbol_expo1
+                            )
+                        )
                         operatorList.add("/")
                         buttonSwitch()
                     }
-                }else if (operatorList.size == 0){
+                } else if (operatorList.size == 0) {
                     operatorList.add("/")
                     buttonSwitch()
                 }
@@ -550,13 +769,11 @@ class ep1stage1 : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        startOperators()
         initialize()
         operator()
     }
+
 }
 
-class StageCheck : Application() {
-    var stage1Cleared = false
-    var stageCleared = 0
-    var stageLost = 0
-}

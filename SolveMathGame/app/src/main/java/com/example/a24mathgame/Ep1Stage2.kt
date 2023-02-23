@@ -197,14 +197,14 @@ class Ep1Stage2 : AppCompatActivity() {
                 if (calculationList[0] == 16.00) {
                     val intent = Intent(this, Victory::class.java)
                     startActivity(intent)
-                    val stage1Cleared = applicationContext as StageCheck
+                    val stage1Cleared = applicationContext as SharedVar
                     stage1Cleared.stage1Cleared = true
-                    val stageCleared = applicationContext as StageCheck
+                    val stageCleared = applicationContext as SharedVar
                     stageCleared.stageCleared = 2
                 } else {
                     val intent = Intent(this, Defeated::class.java)
                     startActivity(intent)
-                    val stageLost = applicationContext as StageCheck
+                    val stageLost = applicationContext as SharedVar
                     stageLost.stageLost = 2
                 }
             }
