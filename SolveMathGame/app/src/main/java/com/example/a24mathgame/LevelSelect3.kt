@@ -1,5 +1,6 @@
 package com.example.a24mathgame
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +14,38 @@ class LevelSelect3 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_level_select3)
 
+        val sharedPreferences = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        var stars31 = sharedPreferences.getInt("stars31", 0)
+        var prevStars31 = sharedPreferences.getInt("prevStars31", 0)
+        var stage31Cleared = sharedPreferences.getBoolean("stage31Cleared", false)
+        var stars32 = sharedPreferences.getInt("stars32", 0)
+        var prevStars32 = sharedPreferences.getInt("prevStars32", 0)
+        var stage32Cleared = sharedPreferences.getBoolean("stage32Cleared", false)
+        var stars33 = sharedPreferences.getInt("stars33", 0)
+        var prevStars33 = sharedPreferences.getInt("prevStars33", 0)
+        var stage33Cleared = sharedPreferences.getBoolean("stage33Cleared", false)
+        var stars34 = sharedPreferences.getInt("stars34", 0)
+        var prevStars34 = sharedPreferences.getInt("prevStars34", 0)
+        var stage34Cleared = sharedPreferences.getBoolean("stage34Cleared", false)
+        var stars35 = sharedPreferences.getInt("stars35", 0)
+        var prevStars35 = sharedPreferences.getInt("prevStars35", 0)
+        var stage35Cleared = sharedPreferences.getBoolean("stage35Cleared", false)
+        var stars36 = sharedPreferences.getInt("stars36", 0)
+        var prevStars36 = sharedPreferences.getInt("prevStars36", 0)
+        var stage36Cleared = sharedPreferences.getBoolean("stage36Cleared", false)
+        var stars37 = sharedPreferences.getInt("stars37", 0)
+        var prevStars37 = sharedPreferences.getInt("prevStars37", 0)
+        var stage37Cleared = sharedPreferences.getBoolean("stage37Cleared", false)
+        var stars38 = sharedPreferences.getInt("stars38", 0)
+        var prevStars38 = sharedPreferences.getInt("prevStars38", 0)
+        var stage38Cleared = sharedPreferences.getBoolean("stage38Cleared", false)
+        var stars39 = sharedPreferences.getInt("stars39", 0)
+        var prevStars39 = sharedPreferences.getInt("prevStars39", 0)
+        var stage39Cleared = sharedPreferences.getBoolean("stage39Cleared", false)
+        var stars310 = sharedPreferences.getInt("stars310", 0)
+        var prevStars310 = sharedPreferences.getInt("prevStars310", 0)
+        var stage210Cleared = sharedPreferences.getBoolean("stage210Cleared", false)
         val backtoep = findViewById<ImageButton>(R.id.backtoep3)
         val shared = application as SharedVar
         val stage21 = findViewById<Button>(R.id.stage21)
@@ -93,328 +126,324 @@ class LevelSelect3 : AppCompatActivity() {
         }
 
 
-        if (shared.stars31 == 3){
+        if (stars31 == 3){
             bigStar1.isVisible = true
             smallStar11.isVisible = true
             smallStar12.isVisible = true
-            shared.prevStars31 = 3
-        } else if (shared.stars31 == 2){
-            if (shared.prevStars31 == 3){
+            editor.putInt("prevStars31", 3)
+        } else if (stars31 == 2){
+            if (prevStars31 == 3){
                 bigStar1.isVisible = true
                 smallStar11.isVisible = true
                 smallStar12.isVisible = true
-                shared.prevStars31 = 3
+                editor.putInt("prevStars31", 3)
             } else {
                 bigStar1.isVisible = true
                 smallStar11.isVisible = true
-                shared.prevStars31 = 2
+                editor.putInt("prevStars31", 2)
             }
-        } else if (shared.stars31 == 1){
-            if (shared.prevStars31 == 2){
+        } else if (stars31 == 1){
+            if (prevStars31 == 2){
                 bigStar1.isVisible = true
                 smallStar11.isVisible = true
-                shared.prevStars31 = 2
-            } else if (shared.prevStars31 == 3){
+                editor.putInt("prevStars31", 2)
+            } else if (prevStars31 == 3){
                 bigStar1.isVisible = true
                 smallStar11.isVisible = true
                 smallStar12.isVisible = true
-                shared.prevStars31 = 3
+                editor.putInt("prevStars31", 3)
             } else {
                 bigStar1.isVisible = true
-                shared.prevStars31 = 1
+                editor.putInt("prevStars31", 1)
             }
         }
 
 
-        if (shared.stars32 == 3){
+        if (stars32 == 3){
             bigStar2.isVisible = true
             smallStar21.isVisible = true
             smallStar22.isVisible = true
-            shared.prevStars32 = 3
-        } else if (shared.stars32 == 2){
-            if (shared.prevStars32 == 3) {
+            editor.putInt("prevStars32", 3)
+        } else if (stars32 == 2){
+            if (prevStars32 == 3){
                 bigStar2.isVisible = true
                 smallStar21.isVisible = true
                 smallStar22.isVisible = true
-                shared.prevStars32 = 3
+                editor.putInt("prevStars32", 3)
             } else {
                 bigStar2.isVisible = true
                 smallStar21.isVisible = true
-                shared.prevStars32 = 2
+                editor.putInt("prevStars32", 2)
             }
-        } else if (shared.stars32 == 1){
-            if (shared.prevStars32 == 2){
+        } else if (stars32 == 1){
+            if (prevStars32 == 2){
                 bigStar2.isVisible = true
                 smallStar21.isVisible = true
-                shared.prevStars32 = 2
-            } else if (shared.prevStars32 == 3){
+                editor.putInt("prevStars32", 2)
+            } else if (prevStars32 == 3){
                 bigStar2.isVisible = true
                 smallStar21.isVisible = true
                 smallStar22.isVisible = true
-                shared.prevStars32 = 3
+                editor.putInt("prevStars32", 3)
             } else {
                 bigStar2.isVisible = true
-                shared.prevStars32 = 1
+                editor.putInt("prevStars32", 1)
             }
         }
 
-        if (shared.stars33 == 3){
+        if (stars33 == 3){
             bigStar3.isVisible = true
             smallStar31.isVisible = true
             smallStar32.isVisible = true
-            shared.prevStars33 = 3
-        } else if (shared.stars33 == 2){
-            if (shared.prevStars33 == 3) {
+            editor.putInt("prevStars33", 3)
+        } else if (stars33 == 2){
+            if (prevStars33 == 3){
                 bigStar3.isVisible = true
                 smallStar31.isVisible = true
                 smallStar32.isVisible = true
-                shared.prevStars33 = 3
+                editor.putInt("prevStars13", 3)
             } else {
                 bigStar3.isVisible = true
                 smallStar31.isVisible = true
-                shared.prevStars33 = 2
+                editor.putInt("prevStars13", 2)
             }
-        } else if (shared.stars33 == 1){
-            if (shared.prevStars33 == 3){
+        } else if (stars33 == 1){
+            if (prevStars33 == 2){
+                bigStar3.isVisible = true
+                smallStar31.isVisible = true
+                editor.putInt("prevStars33", 2)
+            } else if (prevStars33 == 3){
                 bigStar3.isVisible = true
                 smallStar31.isVisible = true
                 smallStar32.isVisible = true
-                shared.prevStars33 = 3
-            } else if (shared.prevStars33 == 2){
-                bigStar3.isVisible = true
-                smallStar31.isVisible = true
-                shared.prevStars33 = 2
+                editor.putInt("prevStars33", 3)
             } else {
                 bigStar3.isVisible = true
-                shared.prevStars33 = 1
+                editor.putInt("prevStars33", 1)
             }
         }
 
-        if (shared.stars34 == 3){
+        if (stars34 == 3){
             bigStar4.isVisible = true
             smallStar41.isVisible = true
             smallStar42.isVisible = true
-            shared.prevStars34 = 3
-        } else if (shared.stars34 == 2){
-            if (shared.prevStars34 == 3) {
+            editor.putInt("prevStars34", 3)
+        } else if (stars34 == 2){
+            if (prevStars34 == 3){
                 bigStar4.isVisible = true
                 smallStar41.isVisible = true
                 smallStar42.isVisible = true
-                shared.prevStars34 = 3
-
+                editor.putInt("prevStars34", 3)
             } else {
                 bigStar4.isVisible = true
                 smallStar41.isVisible = true
-                shared.prevStars34 = 2
+                editor.putInt("prevStars34", 2)
             }
-        } else if (shared.stars34 == 1){
-            if (shared.prevStars34 == 3){
+        } else if (stars34 == 1){
+            if (prevStars34 == 2){
+                bigStar4.isVisible = true
+                smallStar41.isVisible = true
+                editor.putInt("prevStars34", 2)
+            } else if (prevStars34 == 3){
                 bigStar4.isVisible = true
                 smallStar41.isVisible = true
                 smallStar42.isVisible = true
-                shared.prevStars34 = 3
-            } else if (shared.prevStars34 == 2){
-                bigStar4.isVisible = true
-                smallStar41.isVisible = true
-                shared.prevStars34 = 2
+                editor.putInt("prevStars34", 3)
             } else {
-                bigStar4.isVisible = true
-                shared.prevStars34 = 1
+                bigStar1.isVisible = true
+                editor.putInt("prevStars34", 1)
             }
         }
 
-        if (shared.stars35 == 3){
+        if (stars35 == 3){
             bigStar5.isVisible = true
             smallStar51.isVisible = true
             smallStar52.isVisible = true
-            shared.prevStars35 = 3
-        } else if (shared.stars35 == 2){
-            if (shared.prevStars35 == 3) {
+            editor.putInt("prevStars35", 3)
+        } else if (stars35 == 2){
+            if (prevStars35 == 3){
                 bigStar5.isVisible = true
                 smallStar51.isVisible = true
                 smallStar52.isVisible = true
-                shared.prevStars35 = 3
+                editor.putInt("prevStars35", 3)
             } else {
                 bigStar5.isVisible = true
                 smallStar51.isVisible = true
-                shared.prevStars35 = 2
+                editor.putInt("prevStars35", 2)
             }
-        } else if (shared.stars35 == 1){
-            if (shared.prevStars35 == 3){
+        } else if (stars35 == 1){
+            if (prevStars35 == 2){
+                bigStar5.isVisible = true
+                smallStar51.isVisible = true
+                editor.putInt("prevStars35", 2)
+            } else if (prevStars35 == 3){
                 bigStar5.isVisible = true
                 smallStar51.isVisible = true
                 smallStar52.isVisible = true
-                shared.prevStars35 = 3
-
-            } else if (shared.prevStars35 == 2){
-                bigStar5.isVisible = true
-                smallStar51.isVisible = true
-                shared.prevStars35 = 2
+                editor.putInt("prevStars35", 3)
             } else {
                 bigStar5.isVisible = true
-                shared.prevStars35 = 1
+                editor.putInt("prevStars35", 1)
             }
         }
 
-        if (shared.stars36 == 3){
+        if (stars36 == 3){
             bigStar6.isVisible = true
             smallStar61.isVisible = true
             smallStar62.isVisible = true
-            shared.prevStars36 = 3
-        } else if (shared.stars36 == 2){
-            if (shared.prevStars36 == 3) {
+            editor.putInt("prevStars36", 3)
+        } else if (stars36 == 2){
+            if (prevStars36 == 3){
                 bigStar6.isVisible = true
                 smallStar61.isVisible = true
                 smallStar62.isVisible = true
-                shared.prevStars36 = 3
+                editor.putInt("prevStars36", 3)
             } else {
                 bigStar6.isVisible = true
                 smallStar61.isVisible = true
-                shared.prevStars36 = 2
+                editor.putInt("prevStars36", 2)
             }
-        } else if (shared.stars36 == 1){
-            if (shared.prevStars36 == 3){
+        } else if (stars36 == 1){
+            if (prevStars36 == 2){
                 bigStar6.isVisible = true
+                smallStar61.isVisible = true
+                editor.putInt("prevStars36", 2)
+            } else if (prevStars36 == 3){
+                bigStar1.isVisible = true
                 smallStar61.isVisible = true
                 smallStar62.isVisible = true
-                shared.prevStars36 = 3
-            } else if (shared.prevStars36 == 2){
-                bigStar6.isVisible = true
-                smallStar61.isVisible = true
-                shared.prevStars36 = 2
+                editor.putInt("prevStars36", 3)
             } else {
                 bigStar6.isVisible = true
-                shared.prevStars36 = 1
+                editor.putInt("prevStars36", 1)
             }
         }
 
-        if (shared.stars37 == 3){
+        if (stars37 == 3){
             bigStar7.isVisible = true
             smallStar71.isVisible = true
             smallStar72.isVisible = true
-            shared.prevStars37 = 3
-        } else if (shared.stars37 == 2){
-            if (shared.prevStars37 == 3) {
+            editor.putInt("prevStars37", 3)
+        } else if (stars37 == 2){
+            if (prevStars37 == 3){
                 bigStar7.isVisible = true
                 smallStar71.isVisible = true
                 smallStar72.isVisible = true
-                shared.prevStars37 = 3
+                editor.putInt("prevStars37", 3)
             } else {
                 bigStar7.isVisible = true
                 smallStar71.isVisible = true
-                shared.prevStars37 = 2
+                editor.putInt("prevStars37", 2)
             }
-        } else if (shared.stars37 == 1){
-            if (shared.prevStars37 == 3){
+        } else if (stars37 == 1){
+            if (prevStars37 == 2){
+                bigStar7.isVisible = true
+                smallStar71.isVisible = true
+                editor.putInt("prevStars37", 2)
+            } else if (prevStars37 == 3){
                 bigStar7.isVisible = true
                 smallStar71.isVisible = true
                 smallStar72.isVisible = true
-                shared.prevStars37 = 3
-            } else if (shared.prevStars37 == 2){
-                bigStar7.isVisible = true
-                smallStar71.isVisible = true
-                shared.prevStars37 = 2
+                editor.putInt("prevStars37", 3)
             } else {
                 bigStar7.isVisible = true
-                shared.prevStars37 = 1
+                editor.putInt("prevStars37", 1)
             }
         }
 
-        if (shared.stars38 == 3){
+        if (stars38 == 3){
             bigStar8.isVisible = true
             smallStar81.isVisible = true
             smallStar82.isVisible = true
-            shared.prevStars38 = 3
-        } else if (shared.stars38 == 2){
-            if (shared.prevStars38 == 3) {
+            editor.putInt("prevStars38", 3)
+        } else if (stars38 == 2){
+            if (prevStars38 == 3){
                 bigStar8.isVisible = true
                 smallStar81.isVisible = true
                 smallStar82.isVisible = true
-                shared.prevStars38 = 3
+                editor.putInt("prevStars38", 3)
             } else {
                 bigStar8.isVisible = true
                 smallStar81.isVisible = true
-                shared.prevStars38 = 2
+                editor.putInt("prevStars38", 2)
             }
-        } else if (shared.stars38 == 1){
-            if (shared.prevStars38 == 3){
+        } else if (stars38 == 1){
+            if (prevStars38 == 2){
+                bigStar8.isVisible = true
+                smallStar81.isVisible = true
+                editor.putInt("prevStars38", 2)
+            } else if (prevStars38 == 3){
                 bigStar8.isVisible = true
                 smallStar81.isVisible = true
                 smallStar82.isVisible = true
-                shared.prevStars38 = 3
-
-            } else if (shared.prevStars38 == 2){
-                bigStar8.isVisible = true
-                smallStar81.isVisible = true
-                shared.prevStars38 = 2
+                editor.putInt("prevStars38", 3)
             } else {
                 bigStar8.isVisible = true
-                shared.prevStars38 = 1
+                editor.putInt("prevStars38", 1)
             }
         }
 
-        if (shared.stars39 == 3){
+        if (stars39 == 3){
             bigStar9.isVisible = true
             smallStar91.isVisible = true
             smallStar92.isVisible = true
-            shared.prevStars39 = 3
-        } else if (shared.stars39 == 2){
-            if (shared.prevStars39 == 3) {
+            editor.putInt("prevStars39", 3)
+        } else if (stars39 == 2){
+            if (prevStars39 == 3){
                 bigStar9.isVisible = true
                 smallStar91.isVisible = true
                 smallStar92.isVisible = true
-                shared.prevStars39 = 3
+                editor.putInt("prevStars39", 3)
             } else {
                 bigStar9.isVisible = true
                 smallStar91.isVisible = true
-                shared.prevStars39 = 2
+                editor.putInt("prevStars39", 2)
             }
-        } else if (shared.stars39 == 1){
-            if (shared.prevStars39 == 3){
+        } else if (stars39 == 1){
+            if (prevStars39 == 2){
+                bigStar9.isVisible = true
+                smallStar91.isVisible = true
+                editor.putInt("prevStars39", 2)
+            } else if (prevStars39 == 3){
                 bigStar9.isVisible = true
                 smallStar91.isVisible = true
                 smallStar92.isVisible = true
-                shared.prevStars39 = 3
-            } else if (shared.prevStars39 == 2){
-                bigStar9.isVisible = true
-                smallStar91.isVisible = true
-                shared.prevStars39 = 2
+                editor.putInt("prevStars39", 3)
             } else {
                 bigStar9.isVisible = true
-                shared.prevStars39 = 1
+                editor.putInt("prevStars39", 1)
             }
         }
 
-        if (shared.stars310 == 3){
+        if (stars310 == 3){
             bigStar10.isVisible = true
             smallStar101.isVisible = true
             smallStar102.isVisible = true
-            shared.prevStars310 = 3
-        } else if (shared.stars310 == 2){
-            if (shared.prevStars310 == 3) {
+            editor.putInt("prevStars310", 3)
+        } else if (stars310 == 2){
+            if (prevStars310 == 3){
                 bigStar10.isVisible = true
                 smallStar101.isVisible = true
                 smallStar102.isVisible = true
-                shared.prevStars310 = 3
-
+                editor.putInt("prevStars310", 3)
             } else {
                 bigStar10.isVisible = true
                 smallStar101.isVisible = true
-                shared.prevStars310 = 2
+                editor.putInt("prevStars310", 2)
             }
-        } else if (shared.stars310 == 1){
-            if (shared.prevStars310 == 3){
+        } else if (stars310 == 1){
+            if (prevStars310 == 2){
+                bigStar10.isVisible = true
+                smallStar101.isVisible = true
+                editor.putInt("prevStars310", 2)
+            } else if (prevStars310 == 3){
                 bigStar10.isVisible = true
                 smallStar101.isVisible = true
                 smallStar102.isVisible = true
-                shared.prevStars310 = 3
-            } else if (shared.prevStars310 == 2){
-                bigStar10.isVisible = true
-                smallStar101.isVisible = true
-                shared.prevStars310 = 2
+                editor.putInt("prevStars310", 3)
             } else {
                 bigStar10.isVisible = true
-                shared.prevStars310 = 1
+                editor.putInt("prevStars310", 1)
             }
         }
 
@@ -433,7 +462,7 @@ class LevelSelect3 : AppCompatActivity() {
             startActivity(intent)
         }
 
-        stage21.isEnabled = shared.stage210Cleared
+        stage21.isEnabled = stage210Cleared
         if (stage21.isEnabled){
             stage21.setBackgroundResource(R.drawable.ellipse_1__2_)
         }
@@ -443,7 +472,7 @@ class LevelSelect3 : AppCompatActivity() {
         }
 
 
-        stage22.isEnabled = shared.stage31Cleared
+        stage22.isEnabled = stage31Cleared
         if (stage22.isEnabled){
             stage22.setBackgroundResource(R.drawable.ellipse_1__2_)
         }
@@ -452,7 +481,7 @@ class LevelSelect3 : AppCompatActivity() {
             startActivity(intent)
         }
 
-        stage23.isEnabled = shared.stage32Cleared
+        stage23.isEnabled = stage32Cleared
         if (stage23.isEnabled){
             stage23.setBackgroundResource(R.drawable.ellipse_1__2_)
         }
@@ -461,7 +490,7 @@ class LevelSelect3 : AppCompatActivity() {
             startActivity(intent)
         }
 
-        stage24.isEnabled = shared.stage33Cleared
+        stage24.isEnabled = stage33Cleared
         if (stage24.isEnabled){
             stage24.setBackgroundResource(R.drawable.ellipse_1__2_)
         }
@@ -470,7 +499,7 @@ class LevelSelect3 : AppCompatActivity() {
             startActivity(intent)
         }
 
-        stage25.isEnabled = shared.stage34Cleared
+        stage25.isEnabled = stage34Cleared
         if (stage25.isEnabled){
             stage25.setBackgroundResource(R.drawable.ellipse_1__2_)
         }
@@ -479,7 +508,7 @@ class LevelSelect3 : AppCompatActivity() {
             startActivity(intent)
         }
 
-        stage26.isEnabled = shared.stage35Cleared
+        stage26.isEnabled = stage35Cleared
         if (stage26.isEnabled){
             stage26.setBackgroundResource(R.drawable.ellipse_1__2_)
         }
@@ -488,7 +517,7 @@ class LevelSelect3 : AppCompatActivity() {
             startActivity(intent)
         }
 
-        stage27.isEnabled = shared.stage36Cleared
+        stage27.isEnabled = stage36Cleared
         if (stage27.isEnabled){
             stage27.setBackgroundResource(R.drawable.ellipse_1__2_)
         }
@@ -497,7 +526,7 @@ class LevelSelect3 : AppCompatActivity() {
             startActivity(intent)
         }
 
-        stage28.isEnabled = shared.stage37Cleared
+        stage28.isEnabled = stage37Cleared
         if (stage28.isEnabled){
             stage28.setBackgroundResource(R.drawable.ellipse_1__2_)
         }
@@ -506,7 +535,7 @@ class LevelSelect3 : AppCompatActivity() {
             startActivity(intent)
         }
 
-        stage29.isEnabled = shared.stage38Cleared
+        stage29.isEnabled = stage38Cleared
         if (stage29.isEnabled){
             stage29.setBackgroundResource(R.drawable.ellipse_1__2_)
         }
@@ -515,7 +544,7 @@ class LevelSelect3 : AppCompatActivity() {
             startActivity(intent)
         }
 
-        stage30.isEnabled = shared.stage39Cleared
+        stage30.isEnabled = stage39Cleared
         if (stage30.isEnabled){
             stage30.setBackgroundResource(R.drawable.ellipse_1__2_)
         }
@@ -523,5 +552,9 @@ class LevelSelect3 : AppCompatActivity() {
             val intent = Intent(this, Ep3Stage10::class.java)
             startActivity(intent)
         }
+        editor.apply()
+    }
+    override fun onBackPressed() {
+        // do nothing
     }
 }

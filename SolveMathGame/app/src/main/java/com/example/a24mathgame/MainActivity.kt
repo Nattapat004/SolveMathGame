@@ -1,5 +1,6 @@
 package com.example.a24mathgame
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val sharedPreferences = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+
 
         val playButton = findViewById<ImageButton>(R.id.playButton)
         playButton.setOnClickListener{
@@ -22,5 +27,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,HowToPlay::class.java)
             startActivity(intent)
         }
+    }
+    override fun onBackPressed() {
+        // do nothing
     }
 }

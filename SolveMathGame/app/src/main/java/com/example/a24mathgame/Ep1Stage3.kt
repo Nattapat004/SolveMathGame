@@ -1,5 +1,6 @@
 package com.example.a24mathgame
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -16,6 +17,8 @@ class Ep1Stage3 : Ep1stage1() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ep1_stage3)
 
+        val sharedPreferences = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
         val no1 = findViewById<Button>(R.id.no1)
         val no2 = findViewById<Button>(R.id.no2)
         val no3 = findViewById<Button>(R.id.no3)
@@ -221,25 +224,25 @@ class Ep1Stage3 : Ep1stage1() {
                 submit.setBackgroundResource(R.drawable.ans)
                 if (calculationList[0] == objective) {
                     val shared = applicationContext as SharedVar
-                    shared.stage13Cleared = true
+                    editor.putBoolean("stage13Cleared", true)
                     shared.stageCleared = 3
                     shared.timeElapsed = elapsedTime/1000
                     handler.removeCallbacks(runnable)
                     if (elapsedTime <= 60000){
-                        val level1star = applicationContext as SharedVar
                         val intent = Intent(this, threeStarWin::class.java)
                         startActivity(intent)
-                        level1star.stars13 = 3
+                        editor.putInt("stars13", 3)
+                        editor.apply()
                     } else if (elapsedTime <= 120000){
-                        val level1star = applicationContext as SharedVar
                         val intent = Intent(this, twoStarWin::class.java)
                         startActivity(intent)
-                        level1star.stars13 = 2
+                        editor.putInt("stars13", 2)
+                        editor.apply()
                     } else {
-                        val level1star = applicationContext as SharedVar
                         val intent = Intent(this, oneStarWin::class.java)
                         startActivity(intent)
-                        level1star.stars13 = 1
+                        editor.putInt("stars13", 1)
+                        editor.apply()
                     }
                 } else {
                     val intent = Intent(this, Defeated::class.java)
@@ -770,6 +773,9 @@ class Ep1Stage3 : Ep1stage1() {
 
 
 
+    }
+    override fun onBackPressed() {
+        // do nothing
     }
 }
 

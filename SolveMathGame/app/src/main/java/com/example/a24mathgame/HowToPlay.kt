@@ -25,4 +25,7 @@ class HowToPlay : AppCompatActivity() {
 
 
     }
+    override fun onBackPressed() {
+        // do nothing
+    }
 }

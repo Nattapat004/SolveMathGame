@@ -124,7 +124,7 @@ class oneStarWin : AppCompatActivity() {
                     startActivity(intent)
                 }
                 17 -> {
-                    val intent = Intent(this,Ep2Stage7::class.java)
+                    val intent = Intent(this,Ep2Stage8::class.java)
                     startActivity(intent)
                 }
                 18 -> {
@@ -182,5 +182,8 @@ class oneStarWin : AppCompatActivity() {
 
             }
         }
+    }
+    override fun onBackPressed() {
+        // do nothing
     }
 }

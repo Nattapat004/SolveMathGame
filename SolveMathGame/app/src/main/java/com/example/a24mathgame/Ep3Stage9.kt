@@ -1,5 +1,6 @@
 package com.example.a24mathgame
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +16,9 @@ class Ep3Stage9 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ep3_stage9)
+
+        val sharedPreferences = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
         val no1 = findViewById<Button>(R.id.no1)
         val no2 = findViewById<Button>(R.id.no2)
         val no3 = findViewById<Button>(R.id.no3)
@@ -258,25 +262,25 @@ class Ep3Stage9 : AppCompatActivity() {
                 submit.setBackgroundResource(R.drawable.ans)
                 if (calculationList[0] == objective) {
                     val shared = applicationContext as SharedVar
-                    shared.stage39Cleared = true
+                    editor.putBoolean("stage39Cleared", true)
                     shared.stageCleared = 29
                     shared.timeElapsed = elapsedTime/1000
                     handler.removeCallbacks(runnable)
                     if (elapsedTime <= 150000){
-                        val level1star = applicationContext as SharedVar
                         val intent = Intent(this, threeStarWin::class.java)
                         startActivity(intent)
-                        level1star.stars39 = 3
+                        editor.putInt("stars39", 3)
+                        editor.apply()
                     } else if (elapsedTime <= 300000){
-                        val level1star = applicationContext as SharedVar
                         val intent = Intent(this, twoStarWin::class.java)
                         startActivity(intent)
-                        level1star.stars39 = 2
+                        editor.putInt("stars39", 2)
+                        editor.apply()
                     } else {
-                        val level1star = applicationContext as SharedVar
                         val intent = Intent(this, oneStarWin::class.java)
                         startActivity(intent)
-                        level1star.stars39 = 1
+                        editor.putInt("stars39", 1)
+                        editor.apply()
                     }
                 } else {
                     val intent = Intent(this, Defeated::class.java)
@@ -733,12 +737,13 @@ class Ep3Stage9 : AppCompatActivity() {
                         power.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_expo1
+                                R.drawable.symbol__6_
                             )
                         )
                         operatorNumSwitch()
 
                     } else {
+                        sqrtClicked = false
                         operatorList.clear()
                         minus.setImageDrawable(
                             ContextCompat.getDrawable(
@@ -824,6 +829,7 @@ class Ep3Stage9 : AppCompatActivity() {
                         operatorNumSwitch()
 
                     } else {
+                        sqrtClicked = false
                         operatorList.clear()
                         plus.setImageDrawable(
                             ContextCompat.getDrawable(
@@ -907,6 +913,7 @@ class Ep3Stage9 : AppCompatActivity() {
                         operatorNumSwitch()
 
                     } else {
+                        sqrtClicked = false
                         operatorList.clear()
                         minus.setImageDrawable(
                             ContextCompat.getDrawable(
@@ -990,6 +997,7 @@ class Ep3Stage9 : AppCompatActivity() {
                         operatorNumSwitch()
 
                     } else {
+                        sqrtClicked = false
                         operatorList.clear()
                         minus.setImageDrawable(
                             ContextCompat.getDrawable(
@@ -1109,6 +1117,7 @@ class Ep3Stage9 : AppCompatActivity() {
                             )
                         )
                         operatorList.add("sqrt")
+                        buttonSwitch()
                         sqrtClicked = true
                     }
                 } else {
@@ -1196,6 +1205,7 @@ class Ep3Stage9 : AppCompatActivity() {
                         operatorNumSwitch()
 
                     } else {
+                        sqrtClicked = false
                         operatorList.clear()
                         plus.setImageDrawable(
                             ContextCompat.getDrawable(
@@ -1227,7 +1237,7 @@ class Ep3Stage9 : AppCompatActivity() {
                                 R.drawable.symbol__2_
                             )
                         )
-                        operatorList.add("-")
+                        operatorList.add("**")
                         buttonSwitch()
                     }
                 } else if (operatorList.size == 0) {
@@ -1236,7 +1246,7 @@ class Ep3Stage9 : AppCompatActivity() {
                 }
             }
             home1_1.setOnClickListener {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, LevelSelect3::class.java)
                 startActivity(intent)
             }
         }
@@ -1244,5 +1254,8 @@ class Ep3Stage9 : AppCompatActivity() {
         startOperators()
         initialize()
         operator()
+    }
+    override fun onBackPressed() {
+        // do nothing
     }
 }

@@ -1,5 +1,6 @@
 package com.example.a24mathgame
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,8 @@ class Ep1Stage5 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ep1_stage5)
 
+        val sharedPreferences = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
         val no1 = findViewById<Button>(R.id.no1)
         val no2 = findViewById<Button>(R.id.no2)
         val no3 = findViewById<Button>(R.id.no3)
@@ -221,25 +224,25 @@ class Ep1Stage5 : AppCompatActivity() {
                 submit.setBackgroundResource(R.drawable.ans)
                 if (calculationList[0] == objective) {
                     val shared = applicationContext as SharedVar
-                    shared.stage15Cleared = true
+                    editor.putBoolean("stage15Cleared", true)
                     shared.stageCleared = 5
                     shared.timeElapsed = elapsedTime/1000
                     handler.removeCallbacks(runnable)
                     if (elapsedTime <= 60000){
-                        val level1star = applicationContext as SharedVar
                         val intent = Intent(this, threeStarWin::class.java)
                         startActivity(intent)
-                        level1star.stars15 = 3
+                        editor.putInt("stars15", 3)
+                        editor.apply()
                     } else if (elapsedTime <= 120000){
-                        val level1star = applicationContext as SharedVar
                         val intent = Intent(this, twoStarWin::class.java)
                         startActivity(intent)
-                        level1star.stars15 = 2
+                        editor.putInt("stars15", 2)
+                        editor.apply()
                     } else {
-                        val level1star = applicationContext as SharedVar
                         val intent = Intent(this, oneStarWin::class.java)
                         startActivity(intent)
-                        level1star.stars15 = 1
+                        editor.putInt("stars15", 1)
+                        editor.apply()
                     }
                 } else {
                     val intent = Intent(this, Defeated::class.java)
@@ -759,7 +762,7 @@ class Ep1Stage5 : AppCompatActivity() {
                 }
             }
             home1_1.setOnClickListener {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, LevelSelect1::class.java)
                 startActivity(intent)
             }
         }
@@ -767,5 +770,8 @@ class Ep1Stage5 : AppCompatActivity() {
         startOperators()
         initialize()
         operator()
+    }
+    override fun onBackPressed() {
+        // do nothing
     }
 }
