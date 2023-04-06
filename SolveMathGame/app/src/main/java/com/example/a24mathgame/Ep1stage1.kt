@@ -3,9 +3,13 @@ package com.example.a24mathgame
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
+import kotlin.math.sqrt
 import androidx.core.content.ContextCompat
+import kotlin.math.pow
 
 open class Ep1stage1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,10 +23,7 @@ open class Ep1stage1 : AppCompatActivity() {
         val minus = findViewById<ImageButton>(R.id.minus)
         val multiply = findViewById<ImageButton>(R.id.multiply)
         val divide = findViewById<ImageButton>(R.id.divide)
-        val sqrRoot = findViewById<ImageButton>(R.id.root)
         val submit = findViewById<Button>(R.id.submitButton)
-        val power = findViewById<ImageButton>(R.id.power)
-        val backtoep1_1 = findViewById<ImageButton>(R.id.backtoep1_1)
         val home1_1 = findViewById<ImageButton>(R.id.home1_1)
         submit.isEnabled = false
         submit.text = 10.toString()
@@ -30,10 +31,33 @@ open class Ep1stage1 : AppCompatActivity() {
         var no2Clicked = false
         var no3Clicked = false
         var no4Clicked = false
+        var sqrtClicked = false
         var result = 0.00
         var latestPressed = 0.00
         val calculationList = mutableListOf<Double>()
         val operatorList = mutableListOf<String>()
+        val numSet = mutableListOf<Int>(1,2,3,4)
+        var problem = numSet.random()
+        var allDone = false
+        var objective = 0.00
+        var elapsedTime: Long = 0
+        val handler = Handler()
+        val runnable = object : Runnable {
+            override fun run() {
+                // Increment elapsed time by one second
+                elapsedTime += 1000
+                // Update UI with elapsed time
+                val time: TextView = findViewById(R.id.time)
+                time.text = "${elapsedTime / 1000} s."
+                handler.postDelayed(this, 1000)
+            }
+        }
+        handler.post(runnable)
+        plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol__8_ ))
+        minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol__2_))
+        multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol__3_ ))
+        divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol__4_ ))
+
 
 
         fun startOperators() {
@@ -41,8 +65,7 @@ open class Ep1stage1 : AppCompatActivity() {
             minus.isEnabled = false
             multiply.isEnabled = false
             divide.isEnabled = false
-            sqrRoot.isEnabled = false
-            power.isEnabled = false
+
         }
 
 
@@ -51,8 +74,7 @@ open class Ep1stage1 : AppCompatActivity() {
             minus.isEnabled = true
             multiply.isEnabled = true
             divide.isEnabled = true
-            sqrRoot.isEnabled = true
-            power.isEnabled = true
+
         }
 
         fun disableOperators() {
@@ -60,8 +82,7 @@ open class Ep1stage1 : AppCompatActivity() {
             minus.isEnabled = false
             multiply.isEnabled = false
             divide.isEnabled = false
-            sqrRoot.isEnabled = false
-            power.isEnabled = false
+
         }
 
         fun no1Enabled() {
@@ -104,12 +125,11 @@ open class Ep1stage1 : AppCompatActivity() {
 
 
         fun operatorReady() {
-            plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_plus1))
-            minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_minus1))
-            multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_multiple1))
-            divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_divide))
-            sqrRoot.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_sqrt1))
-            power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol_expo1))
+            plus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol__8_ ))
+            minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol__2_))
+            multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol__3_ ))
+            divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.symbol__4_ ))
+
         }
 
         fun operatorUnReady() {
@@ -117,7 +137,7 @@ open class Ep1stage1 : AppCompatActivity() {
             minus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.minusclicked))
             multiply.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.multiclicked))
             divide.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.divideclicked))
-            power.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.expoclicked))
+
         }
 
         fun changeText(no0: Button) {
@@ -185,6 +205,8 @@ open class Ep1stage1 : AppCompatActivity() {
         fun onNumberButtonClicked() {
             if (no1Clicked and no2Clicked and no3Clicked and no4Clicked) {
                 submit.isEnabled = true
+                allDone = true
+                submit.setBackgroundResource(R.drawable.rectangle_4)
                 plus.isEnabled = false
                 minus.isEnabled = false
                 multiply.isEnabled = false
@@ -195,18 +217,35 @@ open class Ep1stage1 : AppCompatActivity() {
 
         fun submitResult() {
             submit.setOnClickListener() {
-                if (calculationList[0] == 10.00) {
-                    val intent = Intent(this, Victory::class.java)
-                    startActivity(intent)
-                    val stage1Cleared = applicationContext as SharedVar
-                    stage1Cleared.stage1Cleared = true
-                    val stageCleared = applicationContext as SharedVar
-                    stageCleared.stageCleared = 1
+                submit.setBackgroundResource(R.drawable.ans)
+                if (calculationList[0] == objective) {
+                    val shared = applicationContext as SharedVar
+                    shared.stage11Cleared = true
+                    shared.stageCleared = 1
+                    shared.timeElapsed = elapsedTime/1000
+                    handler.removeCallbacks(runnable)
+                    if (elapsedTime <= 60000){
+                        val level1star = applicationContext as SharedVar
+                        val intent = Intent(this, threeStarWin::class.java)
+                        startActivity(intent)
+                        level1star.stars11 = 3
+                    } else if (elapsedTime <= 120000){
+                        val level1star = applicationContext as SharedVar
+                        val intent = Intent(this, twoStarWin::class.java)
+                        startActivity(intent)
+                        level1star.stars11 = 2
+                    } else {
+                        val level1star = applicationContext as SharedVar
+                        val intent = Intent(this, oneStarWin::class.java)
+                        startActivity(intent)
+                        level1star.stars11 = 1
+                    }
                 } else {
                     val intent = Intent(this, Defeated::class.java)
                     startActivity(intent)
                     val stageLost = applicationContext as SharedVar
                     stageLost.stageLost = 1
+                    handler.removeCallbacks(runnable)
                 }
             }
         }
@@ -219,19 +258,48 @@ open class Ep1stage1 : AppCompatActivity() {
                     "-" -> result -= calculationList[i]
                     "*" -> result *= calculationList[i]
                     "/" -> result /= calculationList[i]
+                    "sqrt" -> result = sqrt(result)
+                    "**" -> result = result.pow(calculationList[i])
                 }
             }
         }
 
         fun initialize() {
-            no1.tag = 1.00
-            no2.tag = 2.00
-            no3.tag = 3.00
-            no4.tag = 4.00
+            if (problem == 1) {
+                no1.tag = 1.00
+                no2.tag = 2.00
+                no3.tag = 3.00
+                no4.tag = 4.00
+                objective = 10.00
+                submit.tag = objective
+
+            } else if (problem == 2){
+                no1.tag = 2.00
+                no2.tag = 4.00
+                no3.tag = 6.00
+                no4.tag = 8.00
+                objective = 20.00
+                submit.tag = objective
+            } else if (problem == 3){
+                no1.tag = 1.00
+                no2.tag = 3.00
+                no3.tag = 5.00
+                no4.tag = 7.00
+                objective = 16.00
+                submit.tag = objective
+            } else if (problem == 4){
+                no1.tag = 3.00
+                no2.tag = 9.00
+                no3.tag = 4.00
+                no4.tag = 2.00
+                objective = 18.00
+                submit.tag = objective
+            }
             no1.text = no1.tag.toString()
             no2.text = no2.tag.toString()
             no3.text = no3.tag.toString()
             no4.text = no4.tag.toString()
+            submit.text = submit.tag.toString()
             no1.setOnClickListener() {
                 enableOperators()
                 operatorReady()
@@ -239,7 +307,7 @@ open class Ep1stage1 : AppCompatActivity() {
                 no3Disabled()
                 no4Disabled()
                 if (calculationList.size != 0) {
-                    if ((calculationList[0] == no1.tag as Double) and (latestPressed == 1.00)) {
+                    if ((calculationList[0] == no1.tag as Double) and (latestPressed == 1.00) and !sqrtClicked) {
                         no1.setBackgroundResource(R.drawable.number__4_)
                         calculationList.clear()
                         disableOperators()
@@ -253,7 +321,8 @@ open class Ep1stage1 : AppCompatActivity() {
                             no4Enabled()
                         }
                         no1Clicked = false
-                    } else {
+                        submit.isEnabled = false
+                    }else {
                         calculationList.add(no1.tag as Double)
                         performCalculation()
                         changeText(no1)
@@ -268,6 +337,10 @@ open class Ep1stage1 : AppCompatActivity() {
                             no4Enabled()
                         }
                         no1Clicked = false
+                        if (sqrtClicked){
+                            no1.setBackgroundResource(R.drawable.number__4_)
+                        }
+                        sqrtClicked = false
                     }
 
                 } else if (calculationList.size == 0) {
@@ -286,7 +359,7 @@ open class Ep1stage1 : AppCompatActivity() {
                 no3Disabled()
                 no4Disabled()
                 if (calculationList.size != 0) {
-                    if ((calculationList[0] == no2.tag as Double) and (latestPressed == 2.00)) {
+                    if ((calculationList[0] == no2.tag as Double) and (latestPressed == 2.00) and !sqrtClicked) {
                         no2.setBackgroundResource(R.drawable.number__4_)
                         calculationList.clear()
                         disableOperators()
@@ -300,6 +373,7 @@ open class Ep1stage1 : AppCompatActivity() {
                             no4Enabled()
                         }
                         no2Clicked = false
+                        submit.isEnabled = false
                     } else {
                         calculationList.add(no2.tag as Double)
                         performCalculation()
@@ -315,6 +389,10 @@ open class Ep1stage1 : AppCompatActivity() {
                             no4Enabled()
                         }
                         no2Clicked = false
+                        if (sqrtClicked){
+                            no2.setBackgroundResource(R.drawable.number__4_)
+                        }
+                        sqrtClicked = false
 
                     }
                 } else if (calculationList.size == 0) {
@@ -324,7 +402,6 @@ open class Ep1stage1 : AppCompatActivity() {
                     onNumberButtonClicked()
                     submitResult()
                 }
-
                 latestPressed = 2.00
             }
             no3.setOnClickListener() {
@@ -334,7 +411,7 @@ open class Ep1stage1 : AppCompatActivity() {
                 no1Disabled()
                 no4Disabled()
                 if (calculationList.size != 0) {
-                    if ((calculationList[0] == no3.tag as Double) and (latestPressed == 3.00)) {
+                    if ((calculationList[0] == no3.tag as Double) and (latestPressed == 3.00) and !sqrtClicked) {
                         no3.setBackgroundResource(R.drawable.number__4_)
                         calculationList.clear()
                         disableOperators()
@@ -348,6 +425,7 @@ open class Ep1stage1 : AppCompatActivity() {
                             no4Enabled()
                         }
                         no3Clicked = false
+                        submit.isEnabled = false
 
                     } else {
                         calculationList.add(no3.tag as Double)
@@ -355,6 +433,10 @@ open class Ep1stage1 : AppCompatActivity() {
                         changeText(no3)
                         disableOperators()
                         no3Clicked = false
+                        if (sqrtClicked){
+                            no3.setBackgroundResource(R.drawable.number__4_)
+                        }
+                        sqrtClicked = false
                         if (!no1Clicked) {
                             no1Enabled()
                         }
@@ -382,7 +464,7 @@ open class Ep1stage1 : AppCompatActivity() {
                 no3Disabled()
                 no1Disabled()
                 if (calculationList.size != 0) {
-                    if ((calculationList[0] == no4.tag as Double) and (latestPressed == 4.00)) {
+                    if ((calculationList[0] == no4.tag as Double) and (latestPressed == 4.00) and !sqrtClicked ) {
                         no4.setBackgroundResource(R.drawable.number__4_)
                         calculationList.clear()
                         disableOperators()
@@ -396,12 +478,17 @@ open class Ep1stage1 : AppCompatActivity() {
                             no3Enabled()
                         }
                         no4Clicked = false
+                        submit.isEnabled = false
                     } else {
                         calculationList.add(no4.tag as Double)
                         performCalculation()
                         changeText(no4)
                         disableOperators()
                         no4Clicked = false
+                        if (sqrtClicked){
+                            no4.setBackgroundResource(R.drawable.number__4_)
+                        }
+                        sqrtClicked = false
                         if (!no1Clicked) {
                             no1Enabled()
                         }
@@ -434,37 +521,25 @@ open class Ep1stage1 : AppCompatActivity() {
                         plus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_plus1
+                                R.drawable.symbol__8_
                             )
                         )
                         minus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_minus1
+                                R.drawable.symbol__2_
                             )
                         )
                         multiply.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_multiple1
+                                R.drawable.symbol__3_
                             )
                         )
                         divide.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_divide
-                            )
-                        )
-                        sqrRoot.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_sqrt1
-                            )
-                        )
-                        power.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_expo1
+                                R.drawable.symbol__4_
                             )
                         )
                         operatorNumSwitch()
@@ -474,31 +549,19 @@ open class Ep1stage1 : AppCompatActivity() {
                         minus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_minus1
+                                R.drawable.symbol__2_
                             )
                         )
                         multiply.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_multiple1
+                                R.drawable.symbol__3_
                             )
                         )
                         divide.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_divide
-                            )
-                        )
-                        sqrRoot.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_sqrt1
-                            )
-                        )
-                        power.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_expo1
+                                R.drawable.symbol__4_
                             )
                         )
                         operatorList.add("+")
@@ -519,39 +582,28 @@ open class Ep1stage1 : AppCompatActivity() {
                         plus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_plus1
+                                R.drawable.symbol__8_
                             )
                         )
                         minus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_minus1
+                                R.drawable.symbol__2_
                             )
                         )
                         multiply.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_multiple1
+                                R.drawable.symbol__3_
                             )
                         )
                         divide.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_divide
+                                R.drawable.symbol__4_
                             )
                         )
-                        sqrRoot.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_sqrt1
-                            )
-                        )
-                        power.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_expo1
-                            )
-                        )
+
                         operatorNumSwitch()
 
                     } else {
@@ -559,33 +611,22 @@ open class Ep1stage1 : AppCompatActivity() {
                         plus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_plus1
+                                R.drawable.symbol__8_
                             )
                         )
                         multiply.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_multiple1
+                                R.drawable.symbol__3_
                             )
                         )
                         divide.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_divide
+                                R.drawable.symbol__4_
                             )
                         )
-                        sqrRoot.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_sqrt1
-                            )
-                        )
-                        power.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_expo1
-                            )
-                        )
+
                         operatorList.add("-")
                         buttonSwitch()
                     }
@@ -602,39 +643,28 @@ open class Ep1stage1 : AppCompatActivity() {
                         plus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_plus1
+                                R.drawable.symbol__8_
                             )
                         )
                         minus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_minus1
+                                R.drawable.symbol__2_
                             )
                         )
                         multiply.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_multiple1
+                                R.drawable.symbol__3_
                             )
                         )
                         divide.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_divide
+                                R.drawable.symbol__4_
                             )
                         )
-                        sqrRoot.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_sqrt1
-                            )
-                        )
-                        power.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_expo1
-                            )
-                        )
+
                         operatorNumSwitch()
 
                     } else {
@@ -642,33 +672,22 @@ open class Ep1stage1 : AppCompatActivity() {
                         minus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_minus1
+                                R.drawable.symbol__2_
                             )
                         )
                         plus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_plus1
+                                R.drawable.symbol__8_
                             )
                         )
                         divide.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_divide
+                                R.drawable.symbol__4_
                             )
                         )
-                        sqrRoot.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_sqrt1
-                            )
-                        )
-                        power.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_expo1
-                            )
-                        )
+
                         operatorList.add("*")
                         buttonSwitch()
                     }
@@ -685,39 +704,28 @@ open class Ep1stage1 : AppCompatActivity() {
                         plus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_plus1
+                                R.drawable.symbol__8_
                             )
                         )
                         minus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_minus1
+                                R.drawable.symbol__2_
                             )
                         )
                         multiply.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_multiple1
+                                R.drawable.symbol__3_
                             )
                         )
                         divide.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_divide
+                                R.drawable.symbol__4_
                             )
                         )
-                        sqrRoot.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_sqrt1
-                            )
-                        )
-                        power.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_expo1
-                            )
-                        )
+
                         operatorNumSwitch()
 
                     } else {
@@ -725,33 +733,22 @@ open class Ep1stage1 : AppCompatActivity() {
                         minus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_minus1
+                                R.drawable.symbol__2_
                             )
                         )
                         multiply.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_multiple1
+                                R.drawable.symbol__3_
                             )
                         )
                         plus.setImageDrawable(
                             ContextCompat.getDrawable(
                                 this,
-                                R.drawable.symbol_plus1
+                                R.drawable.symbol__8_
                             )
                         )
-                        sqrRoot.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_sqrt1
-                            )
-                        )
-                        power.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.symbol_expo1
-                            )
-                        )
+
                         operatorList.add("/")
                         buttonSwitch()
                     }
@@ -760,20 +757,17 @@ open class Ep1stage1 : AppCompatActivity() {
                     buttonSwitch()
                 }
             }
-            backtoep1_1.setOnClickListener {
-                val intent = Intent(this, LevelSelect1::class.java)
-                startActivity(intent)
+                home1_1.setOnClickListener {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
             }
-            home1_1.setOnClickListener {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
+
+            startOperators()
+            initialize()
+            operator()
         }
 
-        startOperators()
-        initialize()
-        operator()
     }
 
-}
 

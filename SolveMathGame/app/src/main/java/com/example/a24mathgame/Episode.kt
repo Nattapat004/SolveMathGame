@@ -15,9 +15,23 @@ class Episode : AppCompatActivity() {
             startActivity(intent)
         }
         val ep1 = findViewById<ImageButton>(R.id.ep1)
+        val ep2 = findViewById<ImageButton>(R.id.ep2)
+        val ep3 = findViewById<ImageButton>(R.id.ep3)
         ep1.setOnClickListener {
             val intent = Intent(this, LevelSelect1::class.java)
             startActivity(intent)
         }
+
+        ep2.setOnClickListener(){
+            val intent = Intent(this, LevelSelect2::class.java)
+            startActivity(intent)
+        }
+
+        ep3.setOnClickListener(){
+            val intent = Intent(this, LevelSelect3::class.java)
+            startActivity(intent)
+        }
+
+
     }
 }
